@@ -7,3 +7,6 @@
 [submodule "layers/meta-openembedded"]
 	path = layers/meta-openembedded
 	url = git://git.openembedded.org/meta-openembedded
+[submodule "layers/meta-multitech"]
+	path = layers/meta-multitech
+	url = git://git.multitech.net/meta-multitech.git
