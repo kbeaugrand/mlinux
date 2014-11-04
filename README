@@ -1,0 +1,75 @@
+mLinux - MultiTech Linux for MultiConnect Conduit gateways
+============================================================
+
+What is it?
+-----------
+
+mLinux is a distribution provided by MultiTech tailored for the 
+MultiConnect Conduit products (MTCDT models).
+
+mLinux utilizes OpenEmbedded-Core, Bitbake, which are part of the Yocto Project.
+
+For more information about mLinux, see http://www.multitech.net
+
+For more information about the Yocto Project, see http://www.yoctoproject.org
+For more information about OpenEmbedded, see http://www.openembedded.org
+
+How to get started?
+-------------------
+
+1. Build from tarball
+
+    Download the file 'mLinux-x.tar.gz' (where 'x' is the version) from 
+    http://www.multitech.net or copy it from the storage medium bundled with
+    your developer kit.  This file provides the mLinux build system and a set 
+    of sources sufficient for building the sample images provided by mLinux.
+
+    Untar the contents to a folder of your choice, and install prerequisite packages. 
+    Then, configure the environment variables and you are good to go.  
+    
+    Note that mLinux should *not* be built as root and you will need full write 
+    permissions to the build directory structure.  It is recommended to extract and
+    build the software inside your $HOME dir as a normal user.
+
+    tar xzf mLinux-3.0.0.tar.gz
+    cd mlinux-3.0.0
+    # install needed dependencies, see scripts in multitech/contrib/install-deps
+    # example: sudo ./install-deps/install-debian-ubuntu-deps.sh
+    source env-oe.sh
+
+    # set your default machine type in conf/local.conf
+    # MACHINE="mtcdt"
+
+    bitbake mlinux-base-image
+
+2. Build from git repository
+
+    # clone repo to a dir name of your choice
+    git clone git://git.multitech.net/mlinux.git mlinux-3.0.0
+    cd mlinux-3.0.0
+
+    # checkout desired branch or tag
+    git checkout 3.0.0
+
+    # install needed dependencies, see scripts in multitech/contrib/install-deps
+    # example: sudo ./multitech/contrib/install-deps/install-debian-ubuntu-deps.sh
+
+    # initialize git submodules and setup dir structure
+    ./setup.sh
+
+    # setup environment
+    source env-oe.sh
+
+    # set your default machine type in conf/local.conf
+    # MACHINE="mtcdt"
+
+    # build!
+    bitbake mlinux-base-image
+
+See the MultiTech Developer website (http://www.multitech.net) for full 
+installation and build instructions. In particular, see the "Introduction" and
+"Getting Started" pages under the mLinux section.
+
+You can also join the available developer forums to post queries and receive 
+updates from MultiTech developers.
+

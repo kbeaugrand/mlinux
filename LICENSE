@@ -1,0 +1,27 @@
+MultiTech mLinux is a software build system and custom Linux distribution.  
+It is your responsibility to review each license of the contained products 
+to understand what is, and what is not, allowed by each such license.
+
+The OpenEmbedded-Core common-licenses directory 'layers/openembedded-core/meta/files/common-licenses/' 
+contains licenses represented within this distribution. To the extent a license 
+is not contained in the 'common-licenses' directory, it is referenced in the 
+software and remains your responsibility to review.
+
+Different components of OpenEmbedded-Core are under different licenses (a mix
+of MIT and GPLv2). Please see:
+
+layers/openembedded-core/meta/COPYING.GPLv2 (GPLv2)
+layers/openembedded-core/meta/COPYING.MIT (MIT)
+
+For licensing information for other layers, see the files included with 
+that particular layer in the layers subdirectory.
+
+All MultiTech-copyrighted software contained in mLinux is covered by 
+GPL (GNU General Public License) version 2, unless provided under a different license.
+
+All bitbake metadata is MIT licensed unless otherwise stated. Source code
+included in tree for individual recipes is under the LICENSE stated in
+the associated recipe (.bb file) unless otherwise stated.
+
+License information for any other files is either explicitly stated 
+or defaults to GPL version 2.
