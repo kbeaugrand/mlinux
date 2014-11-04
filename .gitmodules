@@ -16,3 +16,6 @@
 [submodule "layers/meta-nodejs"]
 	path = layers/meta-nodejs
 	url = https://github.com/imyller/meta-nodejs.git
+[submodule "layers/meta-mono"]
+	path = layers/meta-mono
+	url = git://git.yoctoproject.org/meta-mono
