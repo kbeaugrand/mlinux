@@ -13,3 +13,6 @@
 [submodule "layers/meta-java"]
 	path = layers/meta-java
 	url = git://github.com/woglinde/meta-java.git
+[submodule "layers/meta-nodejs"]
+	path = layers/meta-nodejs
+	url = https://github.com/imyller/meta-nodejs.git
