@@ -1,0 +1,6 @@
+downloads
+build
+buildhistory
+env-oe.sh
+layers/user-layer
+bitbake.lock
