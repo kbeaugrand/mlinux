@@ -10,3 +10,6 @@
 [submodule "layers/meta-multitech"]
 	path = layers/meta-multitech
 	url = git://git.multitech.net/meta-multitech.git
+[submodule "layers/meta-java"]
+	path = layers/meta-java
+	url = git://github.com/woglinde/meta-java.git
