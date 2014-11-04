@@ -19,3 +19,6 @@
 [submodule "layers/meta-mono"]
 	path = layers/meta-mono
 	url = git://git.yoctoproject.org/meta-mono
+[submodule "layers/meta-mlinux"]
+	path = layers/meta-mlinux
+	url = git://git.multitech.net/meta-mlinux.git
