@@ -4,3 +4,6 @@
 [submodule "layers/openembedded-core"]
 	path = layers/openembedded-core
 	url = git://git.openembedded.org/openembedded-core
+[submodule "layers/meta-openembedded"]
+	path = layers/meta-openembedded
+	url = git://git.openembedded.org/meta-openembedded
