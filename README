@@ -33,7 +33,7 @@ How to get started?
 
     tar xzf mLinux-3.0.0.tar.gz
     cd mlinux-3.0.0
-    # install needed dependencies, see scripts in multitech/contrib/install-deps
+    # install needed dependencies, see scripts in install-deps
     # example: sudo ./install-deps/install-debian-ubuntu-deps.sh
     source env-oe.sh
 
@@ -51,8 +51,8 @@ How to get started?
     # checkout desired branch or tag
     git checkout 3.0.0
 
-    # install needed dependencies, see scripts in multitech/contrib/install-deps
-    # example: sudo ./multitech/contrib/install-deps/install-debian-ubuntu-deps.sh
+    # install needed dependencies, see scripts in install-deps
+    # example: sudo ./install-deps/install-debian-ubuntu-deps.sh
 
     # initialize git submodules and setup dir structure
     ./setup.sh
