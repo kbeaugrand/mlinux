@@ -9,7 +9,8 @@
 	url = git://git.openembedded.org/meta-openembedded
 [submodule "layers/meta-multitech"]
 	path = layers/meta-multitech
-	url = git://git.multitech.net/meta-multitech.git
+	url = git@gitlab.multitech.net:mirrors/meta-multitech.git
+	branch = Counduit_0.1
 [submodule "layers/meta-java"]
 	path = layers/meta-java
 	url = git://git.yoctoproject.org/meta-java
@@ -21,4 +22,5 @@
 	url = git://git.yoctoproject.org/meta-mono
 [submodule "layers/meta-mlinux"]
 	path = layers/meta-mlinux
-	url = git://git.multitech.net/meta-mlinux.git
+	url = git@gitlab.multitech.net:mirrors/meta-mlinux.git
+	branch = internal-dev
