@@ -1,0 +1,18 @@
+#!/bin/bash
+
+currentBranch=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
+
+if [ "$currentBranch" == "master" ]; then
+  gitlabOccurances=$(grep -c -m1 gitlab .gitmodules)
+
+  if [ $gitlabOccurances -eq 1 ]; then
+    echo "COMMIT INVALID: You can't commit anything to the master branch that pulls
+from GitLab because outsiders won't be able to build it.
+
+If you need to use a submodule from GitLab, do so from a branch."
+    exit 1
+  fi
+fi
+
+exit 0 # Everything is good
+

@@ -3,6 +3,11 @@
 set -e
 
 echo ""
+echo "Setting up git hooks..."
+ln -s ../../scripts/git-hooks/pre-commit .git/hooks/pre-commit
+ln -s ../../scripts/git-hooks/pre-push .git/hooks/pre-push
+
+echo ""
 echo "Updating git submodules..."
 git submodule update --init
 
