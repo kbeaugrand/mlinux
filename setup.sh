@@ -4,8 +4,8 @@ set -e
 
 echo ""
 echo "Setting up git hooks..."
-ln -s ../../scripts/git-hooks/pre-commit .git/hooks/pre-commit
-ln -s ../../scripts/git-hooks/pre-push .git/hooks/pre-push
+ln -s ../../scripts/git-hooks/pre-commit .git/hooks/pre-commit || true
+ln -s ../../scripts/git-hooks/pre-push .git/hooks/pre-push || true
 
 echo ""
 echo "Updating git submodules..."
@@ -56,3 +56,8 @@ echo ""
 echo "To build mlinux-base-image:"
 echo "   source env-oe.sh"
 echo "   bitbake mlinux-base-image"
+echo ""
+echo "To build mlinux-mtcap-image:"
+echo "   source env-oe.sh"
+echo "   MACHINE=mtcap bitbake mlinux-mtcap-image"
+
