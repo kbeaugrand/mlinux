@@ -47,6 +47,16 @@ the software inside your $HOME dir as a normal user.
 
     # initialize git submodules and setup dir structure
     ./setup.sh
+    # setup.sh generates a random root password, and places the
+    # password in conf/local.conf and password.txt
+    #
+    # To specify a password use an environmental variable,
+    # ROOT_PASSWORD
+    ROOT_PASSWORD="3g_t1zX0" ./setup.sh 
+    #
+    # To change the password, remove ROOT_PASSWORD and
+    # ROOT_PASSWORD_HASH from conf/local.conf and re-run:
+    ROOT_PASSWORD="Y5bG3m_2" ./setup.sh
 
     # setup environment
     source env-oe.sh
