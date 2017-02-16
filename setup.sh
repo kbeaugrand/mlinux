@@ -34,6 +34,33 @@ if [ "$1" != "--update" ]; then
   else
     echo "Leaving existing conf/local.conf alone."
   fi
+  ex_version=$(egrep '^PR[[:space:]]*=' layers/meta-multitech/recipes-kernel/linux/linux_*.bb)
+  if ((${#ex_version})) && [[ $ex_version =~ =[[:space:]]*([^[:space:]#]*) ]] ; then
+    MLINUX_KERNEL_EXTRA_VERSION="${BASH_REMATCH[1]}"
+    sed -ri '/^MLINUX_KERNEL_EXTRA_VERSION[[:space:]]*=/d' conf/local.conf
+    echo "MLINUX_KERNEL_EXTRA_VERSION = ${MLINUX_KERNEL_EXTRA_VERSION}" >>conf/local.conf
+  fi
+  krecipe=$(echo $(cd layers/meta-multitech/recipes-kernel/linux;echo linux_*.bb))
+  if ((${#krecipe})) && [[ $krecipe =~ linux_(.*).bb$ ]] ; then
+    MLINUX_KERNEL_VERSION="${BASH_REMATCH[1]}"
+    sed -ri '/^MLINUX_KERNEL_VERSION[[:space:]]*=/d' conf/local.conf
+    echo "MLINUX_KERNEL_VERSION = \"${MLINUX_KERNEL_VERSION}\"" >>conf/local.conf
+  fi
+  root_pwd_hash=$(egrep '^ROOT_PASSWORD_HASH[[:space:]]*=' conf/local.conf || true)
+  if ((${#root_pwd_hash} == 0)) ; then
+    if [[ "$ROOT_PASSWORD" ]] ; then
+      pass=$ROOT_PASSWORD
+    else
+      pass=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 2>/dev/null | head -c${1:-8};echo)
+    fi
+    salt="$(openssl rand -base64 128 2>/dev/null)"
+    hash="$(openssl passwd -1 -salt "$salt" "$pass")"
+    echo "ROOT_PASSWORD = \"$pass\"" >password.txt
+    echo "HASH = \"$hash\"" >>password.txt
+    echo "ROOT_PASSWORD_HASH = \"$hash\"" >>conf/local.conf
+    sed -ri "d/ROOT_PASSWORD[[:space:]]=/" conf/local.conf || true
+    echo "ROOT_PASSWORD = \"$pass\"" >>conf/local.conf
+  fi
 
   echo ""
   echo "Creating user-layer..."
