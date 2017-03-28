@@ -58,7 +58,7 @@ if [ "$1" != "--update" ]; then
     echo "ROOT_PASSWORD = \"$pass\"" >password.txt
     echo "HASH = \"$hash\"" >>password.txt
     echo "ROOT_PASSWORD_HASH = \"$hash\"" >>conf/local.conf
-    sed -ri "d/ROOT_PASSWORD[[:space:]]=/" conf/local.conf || true
+    sed -ri "/ROOT_PASSWORD[[:space:]]=/d" conf/local.conf || true
     echo "ROOT_PASSWORD = \"$pass\"" >>conf/local.conf
   fi
 
