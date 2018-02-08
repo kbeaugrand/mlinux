@@ -15,6 +15,13 @@ echo ""
 echo "Updating git submodules..."
 git submodule update --init
 
+# Apply patches
+for f in $(ls patches) ; do
+  if patch --dry-run -Np1 < patches/$f ; then
+    patch -Np1 < patches/$f
+  fi
+done
+
 if [ "$1" != "--update" ]; then
   response=y
   test -f env-oe.sh && read -p "Overwrite env-oe.sh with defaults? (y/N) " response
