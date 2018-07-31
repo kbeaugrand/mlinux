@@ -23,7 +23,7 @@
         branch = morty
 [submodule "layers/meta-mono"]
 	path = layers/meta-mono
-	url = git://git.yoctoproject.org/meta-java
+	url = git://git.yoctoproject.org/meta-mono
         branch = morty
 [submodule "layers/meta-mlinux"]
 	path = layers/meta-mlinux
