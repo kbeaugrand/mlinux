@@ -16,14 +16,14 @@
 	branch = master
 [submodule "layers/meta-java"]
 	path = layers/meta-java
-	url = git@gitlab.multitech.net:mirrors/meta-java.git
+	url = git://git.yoctoproject.org/meta-java
 [submodule "layers/meta-nodejs"]
 	path = layers/meta-nodejs
 	url = https://github.com/imyller/meta-nodejs.git
         branch = morty
 [submodule "layers/meta-mono"]
 	path = layers/meta-mono
-	url = git@gitlab.multitech.net:mirrors/meta-mono.git
+	url = git://git.yoctoproject.org/meta-java
         branch = morty
 [submodule "layers/meta-mlinux"]
 	path = layers/meta-mlinux
