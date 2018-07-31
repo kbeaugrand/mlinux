@@ -1,0 +1,21 @@
+#
+# Suppress repetitive warnings.  Thes will sometimes print five or six
+# times for each file.  If we aren't checking the checksums, why bother?
+#
+diff -Naru orig/bitbake/lib/bb/fetch2/__init__.py new/bitbake/lib/bb/fetch2/__init__.py
+--- orig/bitbake/lib/bb/fetch2/__init__.py	2017-10-24 12:15:19.280615256 -0500
++++ new/bitbake/lib/bb/fetch2/__init__.py	2017-10-25 11:51:53.166099032 -0500
+@@ -1122,11 +1122,12 @@
+ 
+         if ud and isinstance(ud.method, local.Local):
+             paths = ud.method.localpaths(ud, d)
++            strict = d.getVar("BB_STRICT_CHECKSUM", True) or "0"
+             for f in paths:
+                 pth = ud.decodedurl
+                 if '*' in pth:
+                     f = os.path.join(os.path.abspath(f), pth)
+-                if f.startswith(dl_dir):
++                if f.startswith(dl_dir) and (strict == "1"):
+                     # The local fetcher's behaviour is to return a path under DL_DIR if it couldn't find the file anywhere else
+                     if os.path.exists(f):
+                         bb.warn("Getting checksum for %s SRC_URI entry %s: file not found except in DL_DIR" % (d.getVar('PN', True), os.path.basename(f)))

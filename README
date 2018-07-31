@@ -24,8 +24,9 @@ the software inside your $HOME dir as a normal user.
     tar xzf mLinux-3.0.0.tar.gz
     cd mlinux-3.0.0
     # install needed dependencies, see scripts in install-deps
+    # Also switch to the build directory.
     # example: sudo ./install-deps/install-debian-ubuntu-deps.sh
-    source env-oe.sh
+    source oe-init-build-env
 
     # set your default machine type in conf/local.conf
     # MACHINE="mtcdt"
@@ -47,24 +48,26 @@ the software inside your $HOME dir as a normal user.
 
     # initialize git submodules and setup dir structure
     ./setup.sh
-    # setup.sh generates a random root password, and places the
-    # password in conf/local.conf and password.txt
+    # setup.sh generates a random mtadm password, and places the
+    # password in build/conf/local.conf and password.txt
     #
+    # 
     # To specify a password use an environmental variable,
-    # ROOT_PASSWORD
-    ROOT_PASSWORD="3g_t1zX0" ./setup.sh 
+    # MTADM_PASSWORD
+    MTADM_PASSWORD="3g_t1zX0" ./setup.sh 
     #
-    # To change the password, remove ROOT_PASSWORD and
-    # ROOT_PASSWORD_HASH from conf/local.conf and re-run:
-    ROOT_PASSWORD="Y5bG3m_2" ./setup.sh
+    # To change the password, remove MTADM_PASSWORD and
+    # MTADM_PASSWORD_HASH from conf/local.conf and re-run:
+    MTADM_PASSWORD="Y5bG3m_2" ./setup.sh
 
-    # setup environment
-    source env-oe.sh
+    # setup environment and switch to build directory
+    source oe-init-build-env
 
     # set your default machine type in conf/local.conf
     # MACHINE="mtcdt"
 
-    # build an image
+    # build an image (current working directory is
+    # build)
     bitbake mlinux-base-image
 
 -------------------------

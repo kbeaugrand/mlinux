@@ -1,0 +1,15 @@
+# set-upstream was removed from git in change 52668846ea2d41ffbd87cda7cb8e492dea9f2c4d
+# on 2017-08-17 and first introduced in 2.15.0:
+# https://git.kernel.org/pub/scm/git/git.git/commit/?h=v2.15.0&id=52668846ea2d41ffbd87cda7cb8e492dea9f2c4d
+diff -Naru orig/bitbake/lib/bb/fetch2/git.py new/bitbake/lib/bb/fetch2/git.py
+--- orig/bitbake/lib/bb/fetch2/git.py	2018-01-05 12:57:04.963756203 -0600
++++ new/bitbake/lib/bb/fetch2/git.py	2018-01-05 12:57:32.419755391 -0600
+@@ -327,7 +327,7 @@
+                 branchname =  ud.branches[ud.names[0]]
+                 runfetchcmd("%s checkout -B %s %s" % (ud.basecmd, branchname, \
+                             ud.revisions[ud.names[0]]), d, workdir=destdir)
+-                runfetchcmd("%s branch --set-upstream %s origin/%s" % (ud.basecmd, branchname, \
++                runfetchcmd("%s branch --set-upstream-to origin/%s" % (ud.basecmd, \
+                             branchname), d, workdir=destdir)
+             else:
+                 runfetchcmd("%s checkout %s" % (ud.basecmd, ud.revisions[ud.names[0]]), d, workdir=destdir)

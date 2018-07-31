@@ -1,24 +1,31 @@
 [submodule "bitbake"]
 	path = bitbake
 	url = git://git.openembedded.org/bitbake
+        branch = 1.32
 [submodule "layers/openembedded-core"]
 	path = layers/openembedded-core
-	url = git://git.openembedded.org/openembedded-core
+	url = git://git.multitech.net/openembedded-core
+        branch = morty
 [submodule "layers/meta-openembedded"]
 	path = layers/meta-openembedded
 	url = git://git.openembedded.org/meta-openembedded
+        branch = morty
 [submodule "layers/meta-multitech"]
 	path = layers/meta-multitech
 	url = git://git.multitech.net/meta-multitech.git
+	branch = master
 [submodule "layers/meta-java"]
 	path = layers/meta-java
-	url = git://git.yoctoproject.org/meta-java
+	url = git@gitlab.multitech.net:mirrors/meta-java.git
 [submodule "layers/meta-nodejs"]
 	path = layers/meta-nodejs
 	url = https://github.com/imyller/meta-nodejs.git
+        branch = morty
 [submodule "layers/meta-mono"]
 	path = layers/meta-mono
-	url = git://git.yoctoproject.org/meta-mono
+	url = git@gitlab.multitech.net:mirrors/meta-mono.git
+        branch = morty
 [submodule "layers/meta-mlinux"]
 	path = layers/meta-mlinux
 	url = git://git.multitech.net/meta-mlinux.git
+        branch = master

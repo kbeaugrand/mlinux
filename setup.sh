@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+BUILDCONF=build/conf/local.conf
 
 if [ "$1" != "--update" ]; then
   echo ""
@@ -15,51 +16,54 @@ echo ""
 echo "Updating git submodules..."
 git submodule update --init
 
+# Apply patches
+for f in $(ls patches) ; do
+  if patch --dry-run -Np1 < patches/$f ; then
+    patch -Np1 < patches/$f
+  fi
+done
+
 if [ "$1" != "--update" ]; then
-  response=y
-  test -f env-oe.sh && read -p "Overwrite env-oe.sh with defaults? (y/N) " response
-  if [[ $response =~ ^y$ || $response =~ ^yes$ ]]; then
-    echo "Copying default environment script..."
-    cp layers/meta-mlinux/contrib/env-oe.sh .
-  else
-    echo "Leaving existing env-oe.sh alone."
+  if [ ! -d build/conf ]; then
+    mkdir -p build/conf
   fi
 
   echo ""
   response=y
-  test -f conf/local.conf && read -p "Overwrite conf/local.conf with defaults? (y/N) " response
+  test -f ${BUILDCONF} && read -p "Overwrite ${BUILDCONF} with defaults? (y/N) " response
   if [[ $response =~ ^y$ || $response =~ ^yes$ ]]; then
     echo "Creating default bitbake configuration..."
-    cp layers/meta-mlinux/contrib/local.conf conf/
+    cp layers/meta-mlinux/contrib/local.conf build/conf/
   else
-    echo "Leaving existing conf/local.conf alone."
+    echo "Leaving existing ${BUILDCONF} alone."
   fi
-  ex_version=$(egrep '^PR[[:space:]]*=' layers/meta-multitech/recipes-kernel/linux/linux_*.bb)
-  if ((${#ex_version})) && [[ $ex_version =~ =[[:space:]]*([^[:space:]#]*) ]] ; then
-    MLINUX_KERNEL_EXTRA_VERSION="${BASH_REMATCH[1]}"
-    sed -ri '/^MLINUX_KERNEL_EXTRA_VERSION[[:space:]]*=/d' conf/local.conf
-    echo "MLINUX_KERNEL_EXTRA_VERSION = ${MLINUX_KERNEL_EXTRA_VERSION}" >>conf/local.conf
-  fi
-  krecipe=$(echo $(cd layers/meta-multitech/recipes-kernel/linux;echo linux_*.bb))
-  if ((${#krecipe})) && [[ $krecipe =~ linux_(.*).bb$ ]] ; then
-    MLINUX_KERNEL_VERSION="${BASH_REMATCH[1]}"
-    sed -ri '/^MLINUX_KERNEL_VERSION[[:space:]]*=/d' conf/local.conf
-    echo "MLINUX_KERNEL_VERSION = \"${MLINUX_KERNEL_VERSION}\"" >>conf/local.conf
-  fi
-  root_pwd_hash=$(egrep '^ROOT_PASSWORD_HASH[[:space:]]*=' conf/local.conf || true)
+
+  root_pwd_hash=$(egrep '^MTADM_PASSWORD_HASH[[:space:]]*=' ${BUILDCONF} || true)
   if ((${#root_pwd_hash} == 0)) ; then
-    if [[ "$ROOT_PASSWORD" ]] ; then
-      pass=$ROOT_PASSWORD
+    if [[ "$MTADM_PASSWORD" ]] ; then
+      pass=$MTADM_PASSWORD
     else
       pass=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 2>/dev/null | head -c${1:-8};echo)
     fi
     salt="$(openssl rand -base64 128 2>/dev/null)"
     hash="$(openssl passwd -1 -salt "$salt" "$pass")"
-    echo "ROOT_PASSWORD = \"$pass\"" >password.txt
+    echo "MTADM_PASSWORD = \"$pass\"" >password.txt
     echo "HASH = \"$hash\"" >>password.txt
-    echo "ROOT_PASSWORD_HASH = \"$hash\"" >>conf/local.conf
-    sed -ri "/ROOT_PASSWORD[[:space:]]=/d" conf/local.conf || true
-    echo "ROOT_PASSWORD = \"$pass\"" >>conf/local.conf
+    sed -ri "/MTADM_PASSWORD_HASH[[:space:]]=/d" ${BUILDCONF} || true
+    echo "MTADM_PASSWORD_HASH = \"$hash\"" >>${BUILDCONF}
+    sed -ri "/MTADM_PASSWORD[[:space:]]=/d" ${BUILDCONF} || true
+    echo "MTADM_PASSWORD = \"$pass\"" >>${BUILDCONF}
+  fi
+  
+  echo ""
+  response=y
+  test -f build/conf/bblayers.conf && read -p "Overwrite build/conf/bblayers.conf with defaults? (y/N) " response
+  if [[ $response =~ ^y$ || $response =~ ^yes$ ]]; then
+    echo "Copying default bblayers..."
+    OEROOT=$(pwd)
+    sed -e "s?__OEROOT__?${OEROOT}?" conf/bblayers.conf.mlinux >build/conf/bblayers.conf
+  else
+    echo "Leaving existing build/conf/bblayers.conf alone."
   fi
 
   echo ""
@@ -79,18 +83,20 @@ if [ "$1" != "--update" ]; then
 
   echo ""
   echo "Creating directory structure..."
-  mkdir -p downloads
   mkdir -p build
 fi
 
 echo ""
 echo "Setup Done."
 echo ""
+echo "oe-init-build-env will set the current directory to build"
+echo "One must be within the build tree to run bitbake."
+echo ""
 echo "To build mlinux-base-image:"
-echo "   source env-oe.sh"
+echo "   source oe-init-build-env"
 echo "   bitbake mlinux-base-image"
 echo ""
 echo "To build mlinux-mtcap-image:"
-echo "   source env-oe.sh"
+echo "   source oe-init-build-env"
 echo "   MACHINE=mtcap bitbake mlinux-mtcap-image"
 

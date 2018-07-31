@@ -1,0 +1,51 @@
+# CONF_VERSION is increased each time build/conf/ changes incompatibly
+CONF_VERSION = "1"
+
+# Use MultiTech mLinux distribution
+DISTRO = "mlinux"
+MACHINE ?= "mtcdt"
+
+# Where to store downloaded sources
+DL_DIR = "${TOPDIR}/downloads"
+
+# Where to save shared state
+SSTATE_DIR = "${TOPDIR}/build/sstate-cache"
+# bitbake cache location
+PERSISTENT_DIR = "${TOPDIR}/build/cache"
+# build output
+TMPDIR = "${TOPDIR}/build/tmp"
+
+# Which files do we want to parse:
+BBFILES ?= "${TOPDIR}/layers/openembedded-core/meta/recipes-*/*/*.bb"
+
+# Go through the Firewall
+#HTTP_PROXY        = "http://:/"
+
+# Uncomment this to remove unpacked source and intermediate work
+# after successfully building a package.
+# Saves a LOT of disk space, but leaving work around is useful for debugging.
+INHERIT += "rm_work"
+
+# skip parsing of masked files
+BBMASK = ""
+
+# Make use of SMP:
+#   PARALLEL_MAKE specifies how many concurrent compiler threads are spawned per bitbake process
+#   BB_NUMBER_THREADS specifies how many concurrent bitbake tasks will be run
+BB_NUMBER_THREADS ?= "${@oe.utils.cpu_count()*2}"
+PARALLEL_MAKE ?= "-j ${@oe.utils.cpu_count()*2}"
+
+# Don't generate the mirror tarball for SCM repos, the snapshot is enough
+BB_GENERATE_MIRROR_TARBALLS = "0"
+
+# Disable build time patch resolution. This would lauch a devshell
+# and wait for manual intervention. We disable it.
+PATCHRESOLVE = "noop"
+
+# enable local PR server
+PRSERV_HOST = "localhost:0"
+
+# enable buildhistory for images
+INHERIT += "buildhistory"
+BUILDHISTORY_COMMIT = "0"
+BUILDHISTORY_FEATURES = "image"

@@ -1,0 +1,33 @@
+diff -Naru orig/layers/openembedded-core/meta/classes/package_ipk.bbclass new/layers/openembedded-core/meta/classes/package_ipk.bbclass
+--- orig/layers/openembedded-core/meta/classes/package_ipk.bbclass	2017-11-07 17:07:50.868179146 -0600
++++ new/layers/openembedded-core/meta/classes/package_ipk.bbclass	2017-11-07 17:10:39.596174151 -0600
+@@ -21,6 +21,7 @@
+     import textwrap
+     import subprocess
+     import collections
++    import oe.packagedata
+ 
+     oldcwd = os.getcwd()
+ 
+@@ -97,6 +98,21 @@
+         cleanupcontrol(root)
+         from glob import glob
+         g = glob('*')
++        
++        pkgr = d.getVar('PR_' + pkg, True)
++        if pkgr:
++            try:
++                p = re.compile('r[0-9]+(\.[0-9]+)')
++                m = p.match(d.getVar('PKGR',True))
++                find_pr = m.group(1)
++            except:
++                find_pr = ""
++            # bb.note('do_package_ipk: find_pr: %s' % find_pr);
++            pkgr = pkgr + find_pr
++            # bb.note('do_package_ipk: PKGR: %s' % d.getVar('PKGR',True))
++            localdata.setVar('PKGR', pkgr)
++            # bb.note('do_package_ipk: d.pkgr is %s' % pkgr)
++        
+         if not g and localdata.getVar('ALLOW_EMPTY', False) != "1":
+             bb.note("Not creating empty archive for %s-%s-%s" % (pkg, localdata.getVar('PKGV', True), localdata.getVar('PKGR', True)))
+             bb.utils.unlockfile(lf)
