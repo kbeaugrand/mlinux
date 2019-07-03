@@ -13,7 +13,6 @@
 [submodule "layers/meta-multitech"]
 	path = layers/meta-multitech
 	url = git://git.multitech.net/meta-multitech.git
-	branch = master
 [submodule "layers/meta-java"]
 	path = layers/meta-java
 	url = git://git.yoctoproject.org/meta-java
@@ -28,4 +27,3 @@
 [submodule "layers/meta-mlinux"]
 	path = layers/meta-mlinux
 	url = git://git.multitech.net/meta-mlinux.git
-        branch = master
