@@ -5,7 +5,7 @@
 # revision to external kernel modules.
   _skv_BUILDCONF=conf/local.conf
   _skv_KERNELDIR=../layers/meta-multitech/recipes-kernel/linux
-  _skv_KERNBB=${_skv_KERNELDIR}/linux_*.bb
+  _skv_KERNBB=${_skv_KERNELDIR}/linux-at91_*.bb
   if ! [[ -f $_skv_BUILDCONF ]] ; then
      echo "Current directory is $(pwd) and must be the build directory."
      echo "ERROR: Cannot find $_skv_BUILDCONF"
@@ -33,11 +33,11 @@
     fi
   fi
     
-  _skv_krecipe=$(echo $(cd ../layers/meta-multitech/recipes-kernel/linux;echo linux_*.bb))
+  _skv_krecipe=$(echo $(cd ../layers/meta-multitech/recipes-kernel/linux;echo linux-at91_*.bb))
   _skv_old=$(egrep '^MLINUX_KERNEL_VERSION[[:space:]]*=' ${_skv_BUILDCONF} | tail -1)
 
   
-  if ((${#_skv_krecipe})) && [[ $_skv_krecipe =~ linux_(.*).bb$ ]] ; then
+  if ((${#_skv_krecipe})) && [[ $_skv_krecipe =~ linux-at91_(.*).bb$ ]] ; then
     _skv_MLINUX_KERNEL_VERSION="${BASH_REMATCH[1]}"
     _skv_repl="MLINUX_KERNEL_VERSION = \"${_skv_MLINUX_KERNEL_VERSION}\""
     if [[ ${_skv_old} !=  ${_skv_repl} ]] ; then
