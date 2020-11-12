@@ -37,13 +37,12 @@
 	path = layers/meta-mlinux-atmel
 	url = git://git.multitech.net/meta-mlinux-atmel.git
     branch = .
-[submodule "layers/meta-selinux"]
-	path = layers/meta-selinux
-	url = git://git.yoctoproject.org/meta-selinux
-        branch = thud
-[submodule "layers/meta-swupdate"]
-	path = layers/meta-swupdate
-	url = https://github.com/sbabic/meta-swupdate
 [submodule "layers/meta-virtualization"]
 	path = layers/meta-virtualization
 	url = git://git.yoctoproject.org/meta-virtualization
+[submodule "layers/meta-swupdate"]
+	path = layers/meta-swupdate
+	url = https://github.com/sbabic/meta-swupdate
+[submodule "layers/meta-selinux"]
+	path = layers/meta-selinux
+	url = git://git.yoctoproject.org/meta-selinux
