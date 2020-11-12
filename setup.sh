@@ -14,7 +14,7 @@ fi
 
 echo ""
 echo "Updating git submodules..."
-git submodule update --init
+git submodule update --init --recursive
 
 # Apply patches
 for f in $(ls patches) ; do
@@ -22,6 +22,9 @@ for f in $(ls patches) ; do
     patch -Np1 < patches/$f
   fi
 done
+
+# Remove yocto-linux bbappend
+rm -f layers/meta-virtualization/recipes-kernel/linux/linux-yocto_*.bbappend
 
 if [ "$1" != "--update" ]; then
   if [ ! -d build/conf ]; then

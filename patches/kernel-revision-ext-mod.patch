@@ -1,0 +1,25 @@
+diff -Naru orig/layers/openembedded-core/meta/classes/kernel-module-split.bbclass new/layers/openembedded-core/meta/classes/kernel-module-split.bbclass
+--- orig/layers/openembedded-core/meta/classes/kernel-module-split.bbclass	2020-07-13 17:38:32.148762374 -0500
++++ new/layers/openembedded-core/meta/classes/kernel-module-split.bbclass	2020-07-13 17:36:27.740764540 -0500
+@@ -33,7 +33,7 @@
+ KERNEL_MODULES_META_PACKAGE ?= "${@ d.getVar("KERNEL_PACKAGE_NAME") or "kernel" }-modules"
+ 
+ KERNEL_MODULE_PACKAGE_PREFIX ?= ""
+-KERNEL_MODULE_PACKAGE_SUFFIX ?= "-${KERNEL_VERSION}"
++KERNEL_MODULE_PACKAGE_SUFFIX ?= "-${KERNEL_VERSION}${KERNEL_REVISION}"
+ KERNEL_MODULE_PROVIDE_VIRTUAL ?= "1"
+ 
+ python split_kernel_module_packages () {
+diff -Naru orig/layers/openembedded-core/meta/classes/module-base.bbclass new/layers/openembedded-core/meta/classes/module-base.bbclass
+--- orig/layers/openembedded-core/meta/classes/module-base.bbclass	2020-07-13 17:38:20.708762573 -0500
++++ new/layers/openembedded-core/meta/classes/module-base.bbclass	2020-07-13 17:36:52.756764104 -0500
+@@ -16,6 +16,9 @@
+ export KERNEL_VERSION = "${@oe.utils.read_file('${STAGING_KERNEL_BUILDDIR}/kernel-abiversion')}"
+ KERNEL_OBJECT_SUFFIX = ".ko"
+ 
++# Kernel revision
++export KERNEL_REVISION = "${@oe.utils.read_file('${STAGING_KERNEL_BUILDDIR}/mlinux_pr')}"
++
+ # kernel modules are generally machine specific
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 

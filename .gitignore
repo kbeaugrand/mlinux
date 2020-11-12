@@ -4,3 +4,4 @@ buildhistory
 env-oe.sh
 layers/user-layer
 bitbake.lock
+password.txt

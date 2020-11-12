@@ -1,0 +1,95 @@
+diff --git a/bitbake/lib/bb/fetch2/git.py b/bitbake/lib/bb/fetch2/git.py
+index 59a2ee8f..03611804 100644
+--- a/bitbake/lib/bb/fetch2/git.py
++++ b/bitbake/lib/bb/fetch2/git.py
+@@ -141,6 +141,19 @@ class Git(FetchMethod):
+     def supports_checksum(self, urldata):
+         return False
+ 
++    # git HASH verification code (is the REV a hash or not)
++    def bad_git_hash(self, revision):
++        if not revision or len(revision) != 40 or (False in [c in "abcdef0123456789" for c in revision]):
++            if not revision:
++                bb.note("bad_git_hash: SRCREV is not a defined string")
++            elif len(revision) != 40:
++                bb.debug(2,"bad_git_hash: revision len is not 40: " + str(len(revision)))
++                bb.debug(2,"bad_git_hash: revision dump: %s" % ":".join("{:02x}".format(ord(c)) for c in revision))
++            else:
++                bb.debug(2,"bad_git_hash: revision bad char: %s" % ":".join("{:02x}".format(ord(c)) for c in revision))
++            return True
++        return False
++
+     def urldata_init(self, ud, d):
+         """
+         init git specific variable within url data
+@@ -241,16 +254,52 @@ class Git(FetchMethod):
+ 
+         ud.setup_revisions(d)
+ 
++        # EARLY_GITSRCNAME start
++        gitsrcname = '%s%s' % (ud.host.replace(':', '.'), ud.path.replace('/', '.').replace('*', '.'))
++        if gitsrcname.startswith('.'):
++            gitsrcname = gitsrcname[1:]
++        # EARLY_GITSRCNAME end
++
++        # EARLY_GITDIR start
++        dl_dir = d.getVar("DL_DIR")
++        gitdir = d.getVar("GITDIR") or (dl_dir + "/git2")
++        ud.clonedir = os.path.join(gitdir, gitsrcname)
++        ud.localfile = ud.clonedir
++        # EARLY_GITDIR end
++
+         for name in ud.names:
+             # Ensure anything that doesn't look like a sha256 checksum/revision is translated into one
+-            if not ud.revisions[name] or len(ud.revisions[name]) != 40  or (False in [c in "abcdef0123456789" for c in ud.revisions[name]]):
++            # First try the local repository
++            if self.bad_git_hash(ud.revisions[name]):
+                 if ud.revisions[name]:
+                     ud.unresolvedrev[name] = ud.revisions[name]
+-                ud.revisions[name] = self.latest_revision(ud, d, name)
+-
+-        gitsrcname = '%s%s' % (ud.host.replace(':', '.'), ud.path.replace('/', '.').replace('*', '.'))
+-        if gitsrcname.startswith('.'):
+-            gitsrcname = gitsrcname[1:]
++                    if len(ud.revisions[name]) != 0:
++                        # Assume this is a tag, and retrieve hash from local source,
++                        # if possible.  Deviation from openembedded, which goes to
++                        # remote source for tags.
++                        cmd = "%s rev-parse %s^{}" % (ud.basecmd, ud.revisions[name])
++                        savedrev = ud.revisions[name]
++                        if os.path.isdir(ud.localfile):
++                            try:
++                                # Validate local git repository
++                                cmd = "%s --bare fsck --no-full" % (ud.basecmd)
++                                runfetchcmd(cmd,d,workdir=ud.localfile)
++                                # Valid repository, so see if we can get the hash
++                                cmd = "%s rev-parse %s^{}" % (ud.basecmd, ud.revisions[name])
++                                ud.revisions[name] = runfetchcmd(cmd,d,workdir=ud.localfile).rstrip()
++                            except bb.fetch.FetchError:
++                                bb.note("do_fetch: removing invalid git file system: " + ud.localfile)
++                                cmd = "rm -rf " + ud.localfile + ";rm -f " + ud.localfile + ".done"
++                                ud.revisions[name] = savedrev
++
++                if self.bad_git_hash(ud.revisions[name]):
++                    ud.revisions[name] = self.latest_revision(ud, d, name)
++
++        bb.debug(2,"urldata_init: ud.revisions[name] " + ud.revisions[name])
++        bb.debug(2,"urldata_init: ud.host " + ud.host)
++        bb.debug(2,"urldata_init: ud.path " + ud.path)
++
++        # gitsrcname code purposely moved to EARLY_GITSRCNAME
+ 
+         # for rebaseable git repo, it is necessary to keep mirror tar ball
+         # per revision, so that even the revision disappears from the
+@@ -260,10 +309,7 @@ class Git(FetchMethod):
+             for name in ud.names:
+                 gitsrcname = gitsrcname + '_' + ud.revisions[name]
+ 
+-        dl_dir = d.getVar("DL_DIR")
+-        gitdir = d.getVar("GITDIR") or (dl_dir + "/git2")
+-        ud.clonedir = os.path.join(gitdir, gitsrcname)
+-        ud.localfile = ud.clonedir
++        # gitdir/clonedir/localfile purposely moved to EARLY_GITDIR
+ 
+         mirrortarball = 'git2_%s.tar.gz' % gitsrcname
+         ud.fullmirror = os.path.join(dl_dir, mirrortarball)

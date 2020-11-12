@@ -1,31 +1,49 @@
 [submodule "bitbake"]
-	path = bitbake
-	url = git://git.openembedded.org/bitbake
-        branch = 1.32
+        path = bitbake
+        url = git://git.openembedded.org/bitbake
+        branch = 1.40
 [submodule "layers/openembedded-core"]
-	path = layers/openembedded-core
-	url = git://git.multitech.net/openembedded-core
-        branch = morty
+        path = layers/openembedded-core
+        url = git://git.openembedded.org/openembedded-core
+        branch = thud
 [submodule "layers/meta-openembedded"]
-	path = layers/meta-openembedded
-	url = git://git.openembedded.org/meta-openembedded
-        branch = morty
+        path = layers/meta-openembedded
+        url = git://git.openembedded.org/meta-openembedded
+        branch = thud
 [submodule "layers/meta-multitech"]
-	path = layers/meta-multitech
+ 	path = layers/meta-multitech
 	url = git://git.multitech.net/meta-multitech.git
 	branch = .
+[submodule "layers/meta-multitech-atmel"]
+    path = layers/meta-multitech-atmel
+	url = git://git.multitech.net/meta-multitech-atmel.git
+	branch = .
 [submodule "layers/meta-java"]
-	path = layers/meta-java
+ 	path = layers/meta-java
 	url = git://git.yoctoproject.org/meta-java
 [submodule "layers/meta-nodejs"]
-	path = layers/meta-nodejs
-	url = https://github.com/imyller/meta-nodejs.git
-        branch = morty
+    path = layers/meta-nodejs
+    url = https://github.com/imyller/meta-nodejs.git
+    branch = morty
 [submodule "layers/meta-mono"]
-	path = layers/meta-mono
+    path = layers/meta-mono
 	url = git://git.yoctoproject.org/meta-mono
-        branch = morty
+    branch = thud
 [submodule "layers/meta-mlinux"]
 	path = layers/meta-mlinux
 	url = git://git.multitech.net/meta-mlinux.git
-        branch = .
+    branch = .
+[submodule "layers/meta-mlinux-atmel"]
+	path = layers/meta-mlinux-atmel
+	url = git://git.multitech.net/meta-mlinux-atmel.git
+    branch = .
+[submodule "layers/meta-selinux"]
+	path = layers/meta-selinux
+	url = git://git.yoctoproject.org/meta-selinux
+        branch = thud
+[submodule "layers/meta-swupdate"]
+	path = layers/meta-swupdate
+	url = https://github.com/sbabic/meta-swupdate
+[submodule "layers/meta-virtualization"]
+	path = layers/meta-virtualization
+	url = git://git.yoctoproject.org/meta-virtualization

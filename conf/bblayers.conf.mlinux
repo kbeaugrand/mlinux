@@ -4,12 +4,13 @@ BBFILES ?= ""
 BBLAYERS = " \
 			__OEROOT__/layers/user-layer \
 			__OEROOT__/layers/meta-mlinux \
+			__OEROOT__/layers/meta-mlinux-atmel \
 			__OEROOT__/layers/meta-multitech \
+			__OEROOT__/layers/meta-multitech-atmel \
 			__OEROOT__/layers/meta-mono \
 			__OEROOT__/layers/meta-nodejs \
 			__OEROOT__/layers/meta-java \
 			__OEROOT__/layers/meta-openembedded/meta-oe \
-			__OEROOT__/layers/meta-openembedded/meta-ruby \
 			__OEROOT__/layers/meta-openembedded/meta-perl \
 			__OEROOT__/layers/meta-openembedded/meta-python \
 			__OEROOT__/layers/meta-openembedded/meta-networking \

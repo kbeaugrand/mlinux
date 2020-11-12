@@ -5,12 +5,13 @@ BBFILES ?= ""
 BBLAYERS = " \
 			${TOPDIR}/layers/user-layer \
 			${TOPDIR}/layers/meta-mlinux \
+			${TOPDIR}/layers/meta-mlinux-atmel \
 			${TOPDIR}/layers/meta-multitech \
+			${TOPDIR}/layers/meta-multitech-atmel \
 			${TOPDIR}/layers/meta-mono \
 			${TOPDIR}/layers/meta-nodejs \
 			${TOPDIR}/layers/meta-java \
 			${TOPDIR}/layers/meta-openembedded/meta-oe \
-			${TOPDIR}/layers/meta-openembedded/meta-ruby \
 			${TOPDIR}/layers/meta-openembedded/meta-perl \
 			${TOPDIR}/layers/meta-openembedded/meta-networking \
 			${TOPDIR}/layers/meta-openembedded/meta-webserver \

@@ -53,12 +53,15 @@ export OEROOT
 . $OEROOT/scripts/oe-buildenv-internal
 buildenv=$?
 
+declare -a WlAdditions=("OEROOT" "MTIMG" "SDMFG" "SDFMT" "TI_SECURE_DEV_PKG" "TI_SECURE_DEV_PKG_CAT")
 
-if [ "$(echo "$BB_ENV_EXTRAWHITE" | sed -re 's/[ \t]+/\n/g' | egrep '^OEROOT$')" != "OEROOT" ] ; then
-    echo $BB_ENV_EXTRAWHITE needs correction
-    BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE OEROOT"
-    export BB_ENV_EXTRAWHITE
-fi
+for entry in ${WlAdditions[@]}; do
+    if [ "$(echo "$BB_ENV_EXTRAWHITE" | sed -re 's/[ \t]+/\n/g' | egrep ''^$entry'')" != "$entry" ] ; then
+        echo $BB_ENV_EXTRAWHITE needs correction
+        BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE $entry"
+        export BB_ENV_EXTRAWHITE
+    fi
+done
 
 [ $buildenv -eq 0 ] &&
     TEMPLATECONF="$TEMPLATECONF" $OEROOT/scripts/oe-setup-builddir || {
@@ -74,13 +77,3 @@ if [ -z "$BBSERVER" ] && [ -f bitbake.lock ]; then
         BBSERVER=$(cat bitbake.lock) bitbake -m
     fi
 fi
-if ! [[ -x ../setkernelversion.sh ]] ; then
-   echo "expect to find ../setkernelversion.sh"
-   echo "Name of .. directory $(cd ..;pwd)"
-   echo "found these files in ..:"
-   ls ..
-   if ! return 1 2>/dev/null ; then
-	exit 1
-   fi
-fi   
-../setkernelversion.sh

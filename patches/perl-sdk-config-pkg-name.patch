@@ -1,0 +1,11 @@
+diff -Naru orig/layers/openembedded-core/meta/recipes-core/meta/target-sdk-provides-dummy.bb new/layers/openembedded-core/meta/recipes-core/meta/target-sdk-provides-dummy.bb
+--- orig/layers/openembedded-core/meta/recipes-core/meta/target-sdk-provides-dummy.bb	2019-10-16 12:33:35.885748272 -0500
++++ new/layers/openembedded-core/meta/recipes-core/meta/target-sdk-provides-dummy.bb	2019-10-16 12:39:00.417738664 -0500
+@@ -20,6 +20,7 @@
+     libxml-parser-perl \
+     perl-module-bytes \
+     perl-module-carp \
++    perl-module-config \
+     perl-module-constant \
+     perl-module-data-dumper \
+     perl-module-errno \

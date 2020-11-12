@@ -1,8 +1,7 @@
-diff --git a/layers/meta-openembedded/meta-networking/recipes-support/mtr/mtr_0.86.bb b/layers/meta-openembedded/meta-networking/recipes-support/mtr/mtr_0.86.bb
---- a/layers/meta-openembedded/meta-networking/recipes-support/mtr/mtr_0.86.bb
-+++ /dev/null
-diff --git a/layers/meta-openembedded/meta-networking/recipes-support/mtr/mtr_0.86.bb b/layers/meta-openembedded/meta-networking/recipes-support/mtr/mtr_0.86.bb
-@@ -1,21 +0,0 @@
+diff -Naru orig/layers/meta-openembedded/meta-networking/recipes-support/mtr/mtr_0.87.bb new/layers/meta-openembedded/meta-networking/recipes-support/mtr/mtr_0.87.bb
+--- orig/layers/meta-openembedded/meta-networking/recipes-support/mtr/mtr_0.87.bb	2020-07-14 15:55:52.000000000 -0500
++++ new/layers/meta-openembedded/meta-networking/recipes-support/mtr/mtr_0.87.bb	1969-12-31 18:00:00.000000000 -0600
+@@ -1,27 +0,0 @@
 -SUMMARY = "Combined traceroute and ping utility"
 -DESCRIPTION = "mtr combines the functionality of the 'traceroute' and 'ping' programs in a single network diagnostic tool."
 -HOMEPAGE = "http://www.bitwizard.nl/mtr/"
@@ -10,27 +9,30 @@ diff --git a/layers/meta-openembedded/meta-networking/recipes-support/mtr/mtr_0.
 -DEPENDS = "ncurses"
 -
 -LICENSE = "GPLv2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
--                    file://mtr.c;beginline=5;endline=16;md5=af1fafbbfa1bfd48af839f4bb3221106"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-                    file://ui/mtr.c;beginline=5;endline=16;md5=af1fafbbfa1bfd48af839f4bb3221106"
 -
--SRC_URI = "ftp://ftp.bitwizard.nl/mtr/mtr-${PV}.tar.gz"
+-PV .= "+git${SRCPV}"
 -
--SRC_URI[md5sum] = "8d63592c9d4579ef20cf491b41843eb2"
--SRC_URI[sha256sum] = "c5d948920b641cc35f8b380fc356ddfe07cce6a9c6474afe242fc58113f28c06"
+-SRCREV = "e6d0a7e93129e8023654ebf58dfa8135d1b1af56"
+-SRC_URI = "git://github.com/traviscross/mtr"
 -
--inherit autotools
+-S = "${WORKDIR}/git"
+-
+-inherit autotools pkgconfig
 -
 -EXTRA_OECONF = "--without-gtk"
 -
--PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ipv6', '', d)}"
+-PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
 -PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
-
-diff --git a/layers/meta-openembedded/meta-networking/recipes-support/mtr/mtr-conflicts-with-mtr-product_0.86.bb b/layers/meta-openembedded/meta-networking/recipes-support/mtr/mtr-conflicts-with-mtr-product_0.86.bb
-new file mode 100644
-index 000000000..1d8a2cf9d
---- /dev/null
-+++ b/layers/meta-openembedded/meta-networking/recipes-support/mtr/mtr-conflicts-with-mtr-product_0.86.bb
-@@ -0,0 +1,21 @@
+-
+-PACKAGES += "${PN}-bash-completions"
+-
+-FILES_${PN}-bash-completions = "${datadir}/bash-completion/"
+diff -Naru orig/layers/meta-openembedded/meta-networking/recipes-support/mtr/mtr-conflicts-with-mtr-product_0.87.bb new/layers/meta-openembedded/meta-networking/recipes-support/mtr/mtr-conflicts-with-mtr-product_0.87.bb
+--- orig/layers/meta-openembedded/meta-networking/recipes-support/mtr/mtr-conflicts-with-mtr-product_0.87.bb	1969-12-31 18:00:00.000000000 -0600
++++ new/layers/meta-openembedded/meta-networking/recipes-support/mtr/mtr-conflicts-with-mtr-product_0.87.bb	2020-07-14 15:55:52.000000000 -0500
+@@ -0,0 +1,27 @@
 +SUMMARY = "Combined traceroute and ping utility"
 +DESCRIPTION = "mtr combines the functionality of the 'traceroute' and 'ping' programs in a single network diagnostic tool."
 +HOMEPAGE = "http://www.bitwizard.nl/mtr/"
@@ -38,18 +40,23 @@ index 000000000..1d8a2cf9d
 +DEPENDS = "ncurses"
 +
 +LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
-+                    file://mtr.c;beginline=5;endline=16;md5=af1fafbbfa1bfd48af839f4bb3221106"
++LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://ui/mtr.c;beginline=5;endline=16;md5=af1fafbbfa1bfd48af839f4bb3221106"
 +
-+SRC_URI = "ftp://ftp.bitwizard.nl/mtr/mtr-${PV}.tar.gz"
++PV .= "+git${SRCPV}"
 +
-+SRC_URI[md5sum] = "8d63592c9d4579ef20cf491b41843eb2"
-+SRC_URI[sha256sum] = "c5d948920b641cc35f8b380fc356ddfe07cce6a9c6474afe242fc58113f28c06"
++SRCREV = "e6d0a7e93129e8023654ebf58dfa8135d1b1af56"
++SRC_URI = "git://github.com/traviscross/mtr"
 +
-+inherit autotools
++S = "${WORKDIR}/git"
++
++inherit autotools pkgconfig
 +
 +EXTRA_OECONF = "--without-gtk"
 +
-+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ipv6', '', d)}"
++PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
 +PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
-
++
++PACKAGES += "${PN}-bash-completions"
++
++FILES_${PN}-bash-completions = "${datadir}/bash-completion/"
