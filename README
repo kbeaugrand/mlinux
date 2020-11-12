@@ -6,6 +6,9 @@ MultiConnect Conduit products (MTCDT models).
 
 mLinux utilizes OpenEmbedded-Core, Bitbake, which are part of the Yocto Project.
 
+mLinux currently uses Yocto branch Morty and Atmel Linux
+4.9.87.  This is mLinux 5.x.y
+
 For more information about mLinux, see http://www.multitech.net
 
 For more information about the Yocto Project, see http://www.yoctoproject.org
